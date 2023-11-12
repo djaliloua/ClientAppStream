@@ -54,7 +54,7 @@ def main(page: ft.Page):
             page.controls[0] = get_row_control(camera, ft.MainAxisAlignment.CENTER)
 
         if int(e.data) == 1:
-            page.controls[0] = get_row_control(File(), ft.MainAxisAlignment.START)
+            page.controls[0] = get_row_control(File(page), ft.MainAxisAlignment.START)
 
         page.update()
 

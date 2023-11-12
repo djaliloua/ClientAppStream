@@ -158,7 +158,8 @@ class Camera(ft.UserControl):
                 self.client.close_socket()
             print("closing......")
         except:
-            self.page.window_destroy()
+           if self.page is not None:
+               self.page.window_destroy()
 
     def close(self):
         try:
@@ -263,8 +264,10 @@ class Camera(ft.UserControl):
 
 
 class File(ft.UserControl):
-    def __init__(self):
+    def __init__(self, page: ft.Page):
         super().__init__()
+        self.page = page
+
         self.list_items = ft.Column(scroll=ft.ScrollMode.ALWAYS,
                                     expand=False,
                                     )

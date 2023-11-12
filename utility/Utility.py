@@ -144,7 +144,10 @@ class Client:
         self._sock.send(self._msg.encode("utf-8"))
 
     def send_done(self):
-        self._sock.send(b"done")
+        try:
+            self._sock.send(b"done")
+        except:
+            print("server not responding...")
 
     def _try_to_connect(self):
         while self.is_connected:
