@@ -1,7 +1,8 @@
 import base64
+import json
 import os
 import subprocess
-import json
+import sys
 import threading
 import numpy as np
 import cv2
@@ -82,7 +83,7 @@ class Camera(ft.UserControl):
                 ]
             )
 
-
+            # ft.ElevatedButton("Take picture", on_click=self._on_take_picture)
         ])
 
     def on_keyboard(self, e: ft.KeyboardEvent):
@@ -279,7 +280,7 @@ class File(ft.UserControl):
     def init(self):
 
         if not os.path.exists(r"VideoDesktopClient.exe"):
-            folder = r"C:\Users\djali\PycharmProjects\RefactorVideoClient\assets"
+            folder = r"assets"
         else:
             folder = os.path.join(os.getcwd(), "assets")
         if not os.path.exists(folder):
@@ -315,5 +316,5 @@ class File(ft.UserControl):
                 self.list_items.controls.remove(ctrl)
                 self.update()
 
-# flet pack main.py --icon icon.ico --name VideoDesktopClient --product-name StreamingVideo --product-version 1.0.0.3
+# flet pack main.py --icon icon.ico --name VideoDesktopClient --product-name StreamingVideo --product-version 4.0.0.0
 # --company-name Personal

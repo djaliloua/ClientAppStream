@@ -1,2 +1,10 @@
 /venv/
 settings.json
+/dist
+/dist/assets
+/dist/settings.json
+/dist/VideoDesktopClient.exe
+/build
+/assets
+/settings.json
+VideoDesktopClient.spec
