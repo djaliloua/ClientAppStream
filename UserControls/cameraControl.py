@@ -209,9 +209,10 @@ class Camera(ft.UserControl):
 
     def _run_client(self):
         while data.is_client_running:
-            self.client = Client(self.page.client_storage.get("ANDROID_IP"), PORT)
-            while not self.client.is_error:
-                data.data = self.client.receive_bytes()
+            if self.page:
+                self.client = Client(self.page.client_storage.get("ANDROID_IP"), PORT)
+                while not self.client.is_error:
+                    data.data = self.client.receive_bytes()
 
     def did_mount(self) -> None:
         self.running = True
