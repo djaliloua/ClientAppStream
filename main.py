@@ -28,15 +28,23 @@ def main(page: ft.Page):
     page.window_resizable = False
     page.window_maximizable = False
     page.window_frameless = True
+    page.window_prevent_close = True
+    page.window_center()
     page.theme_mode = ft.ThemeMode.DARK
     page.scroll = ft.ScrollMode.ALWAYS
-    load_json_data(page)
     camera = Camera(page)
+
+    def _on_window(e: ft.ControlEvent):
+        if e.data == "close":
+            camera.smart_close()
+            page.window_destroy()
+
+    page.on_window_event = _on_window
+    load_json_data(page)
 
     def get_row_control(ctrl, align):
         return ft.Container(
             content=ctrl,
-
         )
 
     def print_destination(e: ft.ControlEvent):
@@ -49,14 +57,7 @@ def main(page: ft.Page):
             page.controls[0] = get_row_control(File(), ft.MainAxisAlignment.START)
 
         page.update()
-    st = ft.Stack(
-        [
-            ft.NavigationDestination(icon=ft.icons.SAVE, label="Files")
-        ],
-        width=20,
-        height=20
 
-    )
     page.navigation_bar = ft.NavigationBar(
         on_change=print_destination,
         destinations=[
