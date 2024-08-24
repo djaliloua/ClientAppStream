@@ -8,6 +8,6 @@ Video camera streaming application is a desktop app which is considered to be cl
  - Opencv
  - socket
  - Flet
-#### Compile the app to exe
-flet pack main.py --icon icon.ico --name VideoDesktopClient --product-name StreamingVideo --product-version 4.0.0.0
+### Flet CLI command to compile to windows exe
+ - flet pack main.py --icon icon.ico --name VideoDesktopClient --product-name StreamingVideo --product-version 4.0.0.0
 
