@@ -1,8 +1,7 @@
-import os
-
 import flet as ft
-from UserControls.cameraControl import Camera, File
-from utility.Utility import load_json_data
+from UserControls.cameraControl import Camera
+from UserControls.file import File
+from utility.Utility import JsonHelper
 
 
 class MainClass:
@@ -22,6 +21,7 @@ class MainClass:
         page.theme_mode = ft.ThemeMode.DARK
         page.scroll = ft.ScrollMode.ALWAYS
         self.camera = Camera(page)
+        self.jsonhelper = JsonHelper()
 
         def _on_window(e: ft.ControlEvent):
             if e.data == "close":
@@ -29,7 +29,7 @@ class MainClass:
                 page.window_destroy()
 
         page.on_window_event = _on_window
-        load_json_data(page)
+        self.jsonhelper.load_json_data(page)
 
         def get_row_control(ctrl, align):
             return ft.Container(
@@ -39,9 +39,7 @@ class MainClass:
         def print_destination(e: ft.ControlEvent):
 
             if int(e.data) == 0:
-                load_json_data(page)
-                # page.controls.pop(0)
-                # page.controls.append(get_row_control(self.camera, ft.MainAxisAlignment.CENTER))
+                self.jsonhelper.load_json_data(page)
                 page.controls[0] = get_row_control(self.camera, ft.MainAxisAlignment.CENTER)
 
             if int(e.data) == 1:
@@ -57,10 +55,7 @@ class MainClass:
             ],
 
         )
-
         page.update()
-        print(page.navigation_bar.data)
-
         # file.visible = False
         page.add(get_row_control(self.camera, ft.MainAxisAlignment.CENTER))
 
