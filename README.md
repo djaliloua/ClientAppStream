@@ -13,3 +13,5 @@ Video camera streaming application is a desktop app which is considered to be cl
 ### Flet CLI command to compile to windows exe
  - flet pack main.py --icon icon.ico --name VideoDesktopClient --product-name StreamingVideo --product-version 4.0.0.0
 
+### Python version: 3.10.x
+
