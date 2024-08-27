@@ -1,3 +1,6 @@
+import threading
+from concurrent.futures import thread
+
 import flet as ft
 from UserControls.cameraControl import Camera
 from UserControls.file import File
@@ -11,24 +14,28 @@ class MainClass:
     def main(self, page: ft.Page):
         page.title = "Video Stream Client"
         page.vertical_alignment = ft.MainAxisAlignment.CENTER
-        page.window_width = 700
-        page.window_height = 750
-        page.window_resizable = False
-        page.window_maximizable = False
-        page.window_frameless = True
-        page.window_prevent_close = True
-        page.window_center()
+        page.window.width = 700
+        page.window.height = 750
+        page.window.resizable = False
+        page.window.maximizable = False
+        page.window.frameless = False
+        page.window.prevent_close = True
+        page.window.center()
         page.theme_mode = ft.ThemeMode.DARK
         page.scroll = ft.ScrollMode.ALWAYS
-        self.camera = Camera(page)
+        self.event = threading.Event()
+        self.camera = Camera(self.event, page)
         self.jsonhelper = JsonHelper()
 
         def _on_window(e: ft.ControlEvent):
             if e.data == "close":
+                self.event.set()
                 self.camera.smart_close()
-                page.window_destroy()
+                page.window.destroy()
 
-        page.on_window_event = _on_window
+
+
+        page.window.on_event = _on_window
         self.jsonhelper.load_json_data(page)
 
         def get_row_control(ctrl, align):
@@ -50,8 +57,8 @@ class MainClass:
         page.navigation_bar = ft.NavigationBar(
             on_change=print_destination,
             destinations=[
-                ft.NavigationDestination(icon=ft.icons.CAMERA, label="Camera"),
-                ft.NavigationDestination(icon=ft.icons.SAVE, label="Files"),
+                ft.NavigationBarDestination(icon=ft.icons.CAMERA, label="Camera"),
+                ft.NavigationBarDestination(icon=ft.icons.SAVE, label="Files"),
             ],
 
         )

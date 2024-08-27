@@ -51,25 +51,6 @@ class JsonHelper:
             # page.client_storage.set("ANDROID_IP", data["ANDROID_IP"])
 
 
-# def save_json(page: ft.Page):
-#     import json
-#
-#     with open(filename, 'w') as fp:
-#         json.dump({"ANDROID_IP":page.client_storage.get("ANDROID_IP")}, fp)
-#         # page.client_storage.set("ANDROID_IP", data["ANDROID_IP"])
-#
-#
-# def load_json_data(page: ft.Page):
-#     import json
-#     if not os.path.exists(filename):
-#         page.client_storage.set("ANDROID_IP", "")
-#         save_json(page)
-#
-#     with open(filename, "r") as json_file:
-#         my_dict = json.load(json_file)
-#         page.client_storage.set("ANDROID_IP", my_dict["ANDROID_IP"])
-
-
 def convert_to_frame(pixels, image_size):
     rgba = np.fromstring(pixels, np.uint8).reshape(image_size[1],
                                                    image_size[0], 4)

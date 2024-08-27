@@ -21,10 +21,11 @@ def restart():
 
 
 class Camera(ft.UserControl):
-    def __init__(self, page: ft.Page, **kwargs):
+    def __init__(self,event: threading.Event, page: ft.Page, **kwargs):
         super().__init__(**kwargs)
         self.page = page
         self.logging = Logging()
+        self._event = event
         self.running = True
         self.client_payload = ClientPayLoad()
         self._properties_initialization()
@@ -220,17 +221,17 @@ class Camera(ft.UserControl):
         self.logging.info("saved")
         self.is_saving_video = False
 
-    def _run_client(self):
-        while self.client_payload.is_client_running:
+    def _run_client(self, event: threading.Event):
+        while self.client_payload.is_client_running and not event.is_set():
             if self.page:
                 self.client = Client(self.page.client_storage.get("ANDROID_IP"), PORT)
-                while not self.client.is_error:
+                while not self.client.is_error and not self._event.is_set():
                     self.client_payload.payload = self.client.receive_bytes()
 
     def did_mount(self) -> None:
         self.running = True
-        t = threading.Thread(target=self._update, args=[])
-        t1 = threading.Thread(target=self._run_client, args=[])
+        t = threading.Thread(target=self._update, args=[self._event, ])
+        t1 = threading.Thread(target=self._run_client, args=[self._event, ])
         t1.start()
         t.start()
 
@@ -238,8 +239,8 @@ class Camera(ft.UserControl):
         self.running = False
         self.close()
 
-    def _update(self):
-        while True:
+    def _update(self, event: threading.Event):
+        while not event.is_set():
             try:
                 if self.client_payload.payload is not None:
                     self.client_payload.is_client_running = True

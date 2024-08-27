@@ -1,21 +1,17 @@
 import os
 import subprocess
-import flet as ft
-from UserControls.model import FileData
-import os
-import subprocess
-import flet as ft
+import flet
 from UserControls.model import FileData
 
 
-class File(ft.UserControl):
-    def __init__(self, page: ft.Page):
+class File(flet.UserControl):
+    def __init__(self, page: flet.Page):
         super().__init__()
         self.page = page
 
-        self.list_items = ft.Column(scroll=ft.ScrollMode.ALWAYS,
-                                    expand=False,
-                                    )
+        self.list_items = flet.Column(scroll=flet.ScrollMode.ALWAYS,
+                                      expand=False,
+                                      )
         self.init()
 
     def build(self):
@@ -32,19 +28,19 @@ class File(ft.UserControl):
         files = [FileData(name) for name in os.listdir(folder)]
         if os.path.exists(folder):
             for name in files:
-                self.list_items.controls.append(ft.Row(
-                    [ft.Icon(name.Icon_Name, tooltip=name.Extension), ft.Text(name.Name, tooltip=name.File_Name),
-                     ft.Text(name.Extension),
-                     ft.IconButton(ft.icons.OPEN_WITH, data=name,
-                                   tooltip="Open",
-                                   on_click=self._on_open),
-                     ft.IconButton(ft.icons.DELETE,
-                                   tooltip="Delete",
-                                   data=name, on_click=self.on_delete)],
-                    data=name, alignment=ft.MainAxisAlignment.SPACE_EVENLY))
+                self.list_items.controls.append(flet.Row(
+                    [flet.Icon(name.Icon_Name, tooltip=name.Extension), flet.Text(name.Name, tooltip=name.File_Name),
+                     flet.Text(name.Extension),
+                     flet.IconButton(flet.icons.OPEN_WITH, data=name,
+                                     tooltip="Open",
+                                     on_click=self._on_open),
+                     flet.IconButton(flet.icons.DELETE,
+                                     tooltip="Delete",
+                                     data=name, on_click=self.on_delete)],
+                    data=name, alignment=flet.MainAxisAlignment.SPACE_EVENLY))
         self.list_items.controls.reverse()
 
-    def _on_open(self, e: ft.ControlEvent):
+    def _on_open(self, e: flet.ControlEvent):
         filename = os.path.join(os.getcwd(), "assets", e.control.data.File_Name)
         # os.system(filename)
         subprocess.run([filename], shell=True)
