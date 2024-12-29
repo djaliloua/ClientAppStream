@@ -1,6 +1,5 @@
 import threading
 from concurrent.futures import thread
-
 import flet as ft
 from UserControls.cameraControl import Camera
 from UserControls.file import File
@@ -23,17 +22,14 @@ class MainClass:
         page.window.center()
         page.theme_mode = ft.ThemeMode.DARK
         page.scroll = ft.ScrollMode.ALWAYS
-        self.event = threading.Event()
-        self.camera = Camera(self.event, page)
+        self.camera = Camera(threading.Event(), page)
         self.jsonhelper = JsonHelper()
 
         def _on_window(e: ft.ControlEvent):
             if e.data == "close":
-                self.event.set()
+                self.camera.set_event()
                 self.camera.smart_close()
                 page.window.destroy()
-
-
 
         page.window.on_event = _on_window
         self.jsonhelper.load_json_data(page)
@@ -57,8 +53,8 @@ class MainClass:
         page.navigation_bar = ft.NavigationBar(
             on_change=print_destination,
             destinations=[
-                ft.NavigationBarDestination(icon=ft.icons.CAMERA, label="Camera"),
-                ft.NavigationBarDestination(icon=ft.icons.SAVE, label="Files"),
+                ft.NavigationBarDestination(icon=ft.Icons.CAMERA, label="Camera"),
+                ft.NavigationBarDestination(icon=ft.Icons.SAVE, label="Files"),
             ],
 
         )

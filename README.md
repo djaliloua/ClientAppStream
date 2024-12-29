@@ -15,3 +15,7 @@ Video camera streaming application is a desktop app which is considered to be cl
 
 ### Python version: 3.10.x
 
+### Usefull Links
+
+- [ZMQ messaging](https://github.com/jeffbass/imagezmq#introduction)
+
